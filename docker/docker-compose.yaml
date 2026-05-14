@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  Dreamtalk:
+    image: human3d-image  
+    container_name: human3d-container
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    tty: true  
+    stdin_open: true  
+    volumes:
+      - ../:/app 
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY}
+    deploy:
+          resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: 1
+                  capabilities: [gpu]
